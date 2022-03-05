@@ -7,7 +7,7 @@
                 Dashboard
             </a>
 
-            <a class="nav-link {{ Request::is('guru') ? 'active' : '' }}" href="/guru">
+            <a class="nav-link {{ Request::is('guru*') ? 'active' : '' }}" href="/guru">
                 <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                 Guru
             </a>

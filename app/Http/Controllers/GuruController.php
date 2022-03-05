@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreGuruRequest;
 use App\Http\Requests\UpdateGuruRequest;
 
@@ -29,7 +30,9 @@ class GuruController extends Controller
      */
     public function create()
     {
-        //
+        return view('guru.create', [
+            'title' => 'Tambah Data Guru',
+        ]);
     }
 
     /**
@@ -38,9 +41,26 @@ class GuruController extends Controller
      * @param  \App\Http\Requests\StoreGuruRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreGuruRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        $validated = $request->validate([
+            'nama' => 'required',
+            'nip' => 'required|numeric',
+            'nuptk' => 'required|numeric',
+            'jk' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'alamat' => 'required',
+            'agama' => 'required',
+            'kepegawaian' => 'required',
+            'jenis_ptk' => 'required',
+            'no_hp' => 'required|numeric',
+        ]);
+
+        Guru::create($validated);
+
+        return redirect()->route('guru.index')->with('success', 'Data Guru berhasil ditambahkan');
     }
 
     /**
@@ -51,7 +71,10 @@ class GuruController extends Controller
      */
     public function show(Guru $guru)
     {
-        //
+        return view('guru.show', compact('guru'), [
+            'title' => 'Detail Guru',
+            'guru' => $guru
+        ]);
     }
 
     /**
@@ -62,7 +85,10 @@ class GuruController extends Controller
      */
     public function edit(Guru $guru)
     {
-        //
+        return view('guru.edit', [
+            'title' => 'Edit Data Guru',
+            'guru' => $guru
+        ]);
     }
 
     /**
@@ -72,9 +98,25 @@ class GuruController extends Controller
      * @param  \App\Models\Guru  $guru
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGuruRequest $request, Guru $guru)
+    public function update(Request $request, Guru $guru)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required',
+            'nip' => 'required|numeric',
+            'nuptk' => 'required|numeric',
+            'jk' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'alamat' => 'required',
+            'agama' => 'required',
+            'kepegawaian' => 'required',
+            'jenis_ptk' => 'required',
+            'no_hp' => 'required|numeric',
+        ]);
+
+        $guru->update($validated);
+
+        return redirect()->route('guru.index')->with('success', 'Data Guru berhasil diubah');
     }
 
     /**
@@ -85,6 +127,8 @@ class GuruController extends Controller
      */
     public function destroy(Guru $guru)
     {
-        //
+        $guru->delete();
+
+        return redirect()->route('guru.index')->with('success', 'Data Guru berhasil dihapus');
     }
 }

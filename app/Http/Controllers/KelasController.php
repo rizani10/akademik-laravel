@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Kelas;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreKelasRequest;
 use App\Http\Requests\UpdateKelasRequest;
 
@@ -29,7 +31,10 @@ class KelasController extends Controller
      */
     public function create()
     {
-        //
+        return view('kelas.create', [
+            'title' => 'Kelas',
+            'gurus' => Guru::all()
+        ]);
     }
 
     /**
@@ -38,9 +43,16 @@ class KelasController extends Controller
      * @param  \App\Http\Requests\StoreKelasRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreKelasRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama_kelas' => 'required|unique:kelas',
+            'guru_id' => 'required',
+        ]);
+
+        Kelas::create($validated);
+
+        return redirect()->route('kelas.index')->with('success', 'Kelas created successfully.');
     }
 
     /**

@@ -4,7 +4,15 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">{{ $title }}</h1>
 
-    <a href="" class="btn btn-sm btn-primary mb-3">
+    {{-- pesan berhasil --}}
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('success') }}
+    </div>
+    @endif
+
+    <a href="/guru/create" class="btn btn-sm btn-primary mb-3">
         <i class="fas fa-plus"></i>
         Tambah 
     </a>
@@ -26,7 +34,7 @@
                                 <th>NUPTK</th>
                                 <th>Jenis Kelamin</th>
                                 <th>No. Hp</th>
-                                <th>Aksi</th>
+                                <th width="130px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,10 +47,18 @@
                                     <td>{{ $guru->jk }}</td>
                                     <td>{{ $guru->no_hp }}</td>
                                     <td>
-                                        <a href="guru/{{ $guru->id }}/edit" class="btn btn-sm btn-primary" title="Edit">
+                                        <a href="guru/{{ $guru->id }}/edit" class="btn btn-sm btn-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="" class="btn btn-sm btn-danger">Hapus</a>
+
+                                        <!-- Button trigger modal -->
+                                        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#hapus{{ $guru->id }}" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+
+                                        <a href="guru/{{ $guru->id }}" class="btn btn-sm btn-info" title="Lihat">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -54,4 +70,31 @@
     </div>
     <div style="height: 100vh"></div>
 </div>
+
+
+<!-- Modal -->
+@foreach ($gurus as $guru)
+    
+    <div class="modal fade" id="hapus{{ $guru->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah anda yakin ingin menghapus data ini?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form action="/guru/{{ $guru->id }}" method="post">
+                    @method('delete')
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+@endforeach
 @endsection

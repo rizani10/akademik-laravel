@@ -4,7 +4,7 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">{{ $title }}</h1>
 
-    <a href="" class="btn btn-sm btn-primary mb-3">
+    <a href="/kelas/create" class="btn btn-sm btn-primary mb-3">
         <i class="fas fa-plus"></i>
         Tambah 
     </a>
@@ -14,7 +14,7 @@
             <div class="card mb-5">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
-                    Data Guru
+                    Data Kelas
                 </div>
                 <div class="card-body">
                     <table id="datatablesSimple">
